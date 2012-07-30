@@ -28,7 +28,7 @@ echo "Updating ubuntu..."
 sudo aptitude update
 
 echo "Upgrading installed packages..."
-sudo aptitude safe-upgrade -y
+sudo aptitude upgrade
 
 echo "Creating the deploy user"
 sudo useradd -g www-data -p ${PASSWORD} -m -d ${HOME_BASE}${USER} ${USER}
@@ -40,7 +40,7 @@ sudo aptitude install build-essential git-core python-software-properties bison 
 echo "Installing Nginx...."
 sudo add-apt-repository ppa:nginx/stable 
 sudo aptitude update
-sudo aptitude install nginx -y
+sudo aptitude install nginx
 
 echo "disabling rdoc generation for gem install"
 echo "gem: --no-ri --no-rdoc" >> ~/.gemrc
