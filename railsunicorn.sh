@@ -77,17 +77,25 @@ sudo chown -R ${USER}:${USER} ${HOME_BASE}${USER}/.ssh
 sudo chmod 700 ${HOME_BASE}${USER}/.ssh
 sudo chmod 600 ${HOME_BASE}${USER}/.ssh/authorized_keys
 
-echo -e "\n=> Installing RVM the Ruby Version Manager \n"
-sudo su ${USER} -c 'bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)'
-RVM_COMMAND='[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"'
-echo "${RVM_COMMAND}" | sudo su ${USER} -c 'tee -a "$HOME/.bashrc"' >/dev/null
-sudo source ${HOME_BASE}${USER}/.bashrc
-sudo su ${USER} -c 'rvm install 1.9.3'
-sudo su ${USER} -c 'rvm use --default 1.9.3'
-echo "install: --no-rdoc --no-ri" | sudo su ${USER} -c 'tee -a "$HOME/.gemrc"' >/dev/null
-echo "update: --no-rdoc --no-ri" | sudo su ${USER} -c 'tee -a "$HOME/.gemrc"' >/dev/null
-sudo su ${USER} 'gem install rails --no-rdoc --no-ri'
-sudo su ${USER} 'gem install bundler --no-rdoc --no-ri'
+
+echo -e "\n=> Installing system wide install of RVM\n"
+cd
+curl -L get.rvm.io | sudo bash -s stable
+usermod -a -G rvm ${USER}
+echo '[[ -s "/usr/local/rvm/scripts/rvm" ]] && source "/usr/local/rvm/scripts/rvm"' >> ~/.bashrc
+source .bashrc
+rvm install 1.9.3
+rvm use 1.9.3 --default
+# sudo su ${USER} -c 'wget ftp://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p194.tar.gz'
+# sudo su ${USER} -c 'tar -xvzf ruby-1.9.3-p194.tar.gz'
+# sudo su ${USER} -c 'cd ruby-1.9.3-p194/'
+# sudo su ${USER} -c './configure'
+# sudo su ${USER} -c 'make'
+# sudo su ${USER} -c 'sudo make install'
+# echo "install: --no-rdoc --no-ri" | sudo su ${USER} -c 'tee -a "$HOME/.gemrc"' >/dev/null
+# echo "update: --no-rdoc --no-ri" | sudo su ${USER} -c 'tee -a "$HOME/.gemrc"' >/dev/null
+# sudo su ${USER} -c 'gem install rails --no-rdoc --no-ri'
+# sudo su ${USER} -c 'gem install bundler --no-rdoc --no-ri'
 
 control_c()
 {
